@@ -1,25 +1,28 @@
-class apelpublisher::config (
-  $mysql_hostname          = $apelpublisher::params::mysql_hostname,
-  $mysql_port              = $apelpublisher::params::mysql_port,
-  $mysql_database          = $apelpublisher::params::mysql_database,
-  $mysql_user              = $apelpublisher::params::mysql_user,
-  $mysql_password          = $apelpublisher::params::mysql_apel_password,
-  $site_name               = $apelpublisher::params::site_name,
-  $ldap_host               = $apelpublisher::params::ldap_host,
-  $ldap_port               = $apelpublisher::params::ldap_port,
-  $joiner_local_jobs       = $apelpublisher::params::joiner_local_jobs,
-  $joiner_enabled          = $apelpublisher::params::joiner_enabled,
-  $unloader_enabled        = $apelpublisher::params::unloader_enabled,
-  $unloader_dir_location   = $apelpublisher::params::unloader_dir_location,
-  $unloader_send_summaries = $apelpublisher::params::unloader_send_summaries,
-  $unloader_withhold_dns   = $apelpublisher::params::unloader_withhold_dns,
-  $ssm_enabled             = $apelpublisher::params::ssm_enabled,
-  $logging_logfile         = $apelpublisher::params::logging_logfile,
-  $logging_level           = $apelpublisher::params::logging_level,
-  $logging_console         = $apelpublisher::params::logging_console,
-  ) inherits apelpublisher::params {
+define apelpublisher::config (
+  $mysql_hostname = "localhost",
+  $mysql_port = 3306,
+  $mysql_database = "apelclient",
+  $mysql_user = "apel",
+  $mysql_password = "pleasechangeme",
+  $site_name = $title ,
+  $ldap_port = 2170,
+  $joiner_local_jobs = false,
+  $joiner_enabled = true,
+  $unloader_enabled = true,
+  $unloader_dir_location = "/var/spool/apel/",
+  $unloader_send_summaries = false,
+  $unloader_withhold_dns = false,
+  $ssm_enabled = true,
+  $logging_logfile = "/var/log/apel/client.log",
+  $logging_level = "INFO",
+  $logging_console = true,
+  $destination_queue = '/queue/global.accounting.cputest.CENTRAL',
+  $msg_network = 'TEST-NWOB',
+  $ldap_host = "lcg-bdii.cern.ch",
+  $use_ssl = true,
+  ) {
     
-  file { '/etc/apel/client.cfg':
+  file { "/etc/apel/client_${site_name}.cfg":
     owner   => "root",
     group   => "root",
     ensure  => "present",
@@ -28,5 +31,11 @@ class apelpublisher::config (
     mode => '0600',
   }
   
-  include apelpublisher::ssm::sender
+  apelpublisher::ssm::sender {
+    $title:
+        destination_queue => $destination_queue,
+        msg_network => $msg_network, 
+        ldap_host => $ldap_host,
+        use_ssl => $use_ssl;
+  }
 }
