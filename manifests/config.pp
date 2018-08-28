@@ -21,8 +21,10 @@ define apelpublisher::config (
   $ldap_host = "lcg-bdii.cern.ch",
   $use_ssl = true,
   ) {
-    
-  file { "/etc/apel/client_${site_name}.cfg":
+   
+  notify { "will create the file /etc/apel/client-$site_name.cfg":;}
+
+  file { "/etc/apel/client-$site_name.cfg":
     owner   => "root",
     group   => "root",
     ensure  => "present",
