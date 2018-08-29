@@ -10,7 +10,7 @@
    $use_ssl                   = true,
  ) {
    
-   file { "/etc/apel/sender_${title}.cfg":
+   file { "/etc/apel/sender.cfg":
     owner   => "root",
     group   => "root",
     ensure  => "present",

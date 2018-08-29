@@ -69,7 +69,7 @@ send_ur = false
 enabled = <%= @ssm_enabled %>
 
 [logging]
-logfile = /var/log/apel/client.log
+logfile = <%= @logging_logfile %> 
 level = INFO
 console = true
 
