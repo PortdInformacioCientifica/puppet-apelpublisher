@@ -38,7 +38,7 @@ define apelpublisher::config (
   apelpublisher::cron {
     $title:
         cron_hours => $cron_hours,
-        cron_minutues => $cron_minutes; 
+        cron_minutes => $cron_minutes; 
   }
   
 }
