@@ -33,11 +33,4 @@ define apelpublisher::config (
     mode => '0600',
   }
   
-  apelpublisher::ssm::sender {
-    $title:
-        destination_queue => $destination_queue,
-        msg_network => $msg_network, 
-        ldap_host => $ldap_host,
-        use_ssl => $use_ssl;
-  }
 }
