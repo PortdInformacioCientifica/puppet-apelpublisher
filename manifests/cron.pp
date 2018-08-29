@@ -1,8 +1,8 @@
-class apelpublisher::cron (
-  $cron_minutes = $apelpublisher::params::cron_minutes,
-  $cron_hours   = $apelpublisher::params::cron_hours,) inherits apelpublisher::params {
+define apelpublisher::cron (
+  $cron_minutes = "00",
+  $cron_hours   = "19",) {
   cron { apelclient:
-    command => "/usr/bin/apelclient >> /var/log/apelclient.log 2>&1",
+    command => "/usr/bin/apelclient -c /etc/apel/client-${title}.cfg",
     user    => root,
     hour    => $cron_hours,
     minute  => $cron_minutes,

@@ -20,6 +20,8 @@ define apelpublisher::config (
   $msg_network = 'TEST-NWOB',
   $ldap_host = "lcg-bdii.cern.ch",
   $use_ssl = true,
+  $cron_hours = "19",
+  $cron_minutes = "00",
   ) {
    
   notify { "will create the file /etc/apel/client-$site_name.cfg":;}
@@ -31,6 +33,12 @@ define apelpublisher::config (
     content => template("${module_name}/client.cfg.erb"),
     require => [Package['apel-client'],Package['apel-ssm']],
     mode => '0600',
+  }
+
+  apelpublisher::cron {
+    $title:
+        cron_hours => $cron_hours,
+        cron_minutues => $cron_minutes; 
   }
   
 }
